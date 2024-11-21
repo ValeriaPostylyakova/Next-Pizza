@@ -27,7 +27,7 @@ export const Categories: FC<Props> = ({ className }) => {
         >
             {cats.map((name, i) => (
                 <a
-                    key={name}
+                    key={i}
                     className={cn(
                         'flex items-center font-bold h-11 rounded-2xl px-5',
                         activeIndex === i &&

@@ -1,5 +1,10 @@
-import { Container, Filters, Title } from '@/components/shared';
-import { TopBar } from '@/components/shared/top-bar';
+import {
+    Container,
+    Filters,
+    ProductsGroupList,
+    Title,
+} from '@/components/shared';
+import { TopBar } from '@/components/shared/';
 
 export default function Home() {
     return (
@@ -16,22 +21,91 @@ export default function Home() {
                     </div>
                     <div className="flex-1">
                         <div className="flex flex-col gap-16">
-                            {/*<ProductsGroupList*/}
-                            {/*    title="Пиццы"*/}
-                            {/*    items={[1, 2, 3, 4, 5]}*/}
-                            {/*/>*/}
-                            {/*<ProductsGroupList*/}
-                            {/*    title="Комбо"*/}
-                            {/*    items={[1, 2, 3, 4, 5]}*/}
-                            {/*/>*/}
+                            <ProductsGroupList
+                                title="Пиццы"
+                                items={[
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                ]}
+                                categoryId={1}
+                            />
+                            <ProductsGroupList
+                                title="Завтраки"
+                                items={[
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                    {
+                                        id: 1,
+                                        name: 'Чизбургер пицца',
+                                        imageUrl:
+                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
+                                        price: 550,
+                                        items: [{ price: 550 }],
+                                    },
+                                ]}
+                                categoryId={1}
+                            />
                         </div>
-
-                        {/*<div className="flex items-center gap-6 mt-12">*/}
-                        {/*    <Pagination pageCount={3} />*/}
-                        {/*    <span className="text-sm text-gray-400">*/}
-                        {/*        5 из 65*/}
-                        {/*    </span>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             </Container>
