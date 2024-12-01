@@ -1,8 +1,8 @@
 'use client';
 
-import { ChangeEvent, FC, useState } from 'react';
-import { FilterCheckboxProps, FilterCheckbox } from './filter-checkbox';
 import { Input, Skeleton } from '@/components/ui';
+import { ChangeEvent, FC, useState } from 'react';
+import { FilterCheckbox, FilterCheckboxProps } from './filter-checkbox';
 
 interface Props {
     title: string;
@@ -11,9 +11,10 @@ interface Props {
     limit?: number;
     searchInputPlaceholder?: string;
     className?: string;
-    onChange?: (values: string[]) => void;
+    onClickCheckbox?: (id: string) => void;
     defaultValue?: string[];
     loading: boolean;
+    selectedId?: Set<string>;
 }
 
 export const CheckboxFiltersGroup: FC<Props> = ({
@@ -24,8 +25,9 @@ export const CheckboxFiltersGroup: FC<Props> = ({
     searchInputPlaceholder = 'Поиск...',
     className,
     loading,
-    onChange,
+    onClickCheckbox,
     defaultValue,
+    selectedId,
 }) => {
     const [showAll, setShowAll] = useState(false);
     const [searchValue, setSearchValue] = useState('');
@@ -78,8 +80,8 @@ export const CheckboxFiltersGroup: FC<Props> = ({
                         value={item.value}
                         text={item.text}
                         endAdornment={item.endAdornment}
-                        checked={false}
-                        onCheckedChange={(id) => console.log(id)}
+                        checked={selectedId?.has(item.value)}
+                        onCheckedChange={() => onClickCheckbox?.(item.value)}
                     />
                 ))}
             </div>

@@ -1,5 +1,5 @@
-import { Checkbox } from '../ui/checkbox';
 import { FC, ReactNode } from 'react';
+import { Checkbox } from '../ui/checkbox';
 
 export interface FilterCheckboxProps {
     text: string;
