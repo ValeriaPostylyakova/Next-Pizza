@@ -7,7 +7,7 @@ import { FilterCheckbox, FilterCheckboxProps } from './filter-checkbox';
 interface Props {
     title: string;
     items: FilterCheckboxProps[];
-    defaultItems: FilterCheckboxProps[];
+    defaultItems?: FilterCheckboxProps[];
     limit?: number;
     searchInputPlaceholder?: string;
     className?: string;
@@ -36,7 +36,7 @@ export const CheckboxFiltersGroup: FC<Props> = ({
         ? items.filter((item) =>
               item.text.toLowerCase().includes(searchValue.toLowerCase())
           )
-        : defaultItems.slice(0, limit);
+        : (defaultItems || items).slice(0, limit);
 
     const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);

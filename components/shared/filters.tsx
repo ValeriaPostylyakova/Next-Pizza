@@ -2,10 +2,14 @@
 
 import { CheckboxFiltersGroup } from '@/components/shared/checkbox-filters-group';
 import { Input } from '@/components/ui';
-import { useFilterIngredients } from '@/hooks/useFilterIngredients';
+import {
+    useFilterIngredients,
+    useFiltersParams,
+    useQueryFilters,
+} from '@/hooks';
 import { cn } from '@/lib/utils';
-import { FC, useState } from 'react';
-import { FilterCheckbox } from './filter-checkbox';
+import { useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 import { RangeSlider } from './range-slider';
 import { Title } from './title';
 
@@ -13,34 +17,80 @@ interface Props {
     className?: string;
 }
 
-type PriceProps = {
-    priceFrom: number;
-    priceTo: number;
+export type PriceProps = {
+    priceFrom: number | undefined;
+    priceTo: number | undefined;
 };
 
+export interface QueryFilters extends PriceProps {
+    sizes: string[];
+    pizzaTypes: string;
+    ingredients: string[];
+}
+
 export const Filters: FC<Props> = ({ className }) => {
-    const { items, loading, selectedId, onToggleId } = useFilterIngredients();
+    const searchParams = useSearchParams() as unknown as Map<
+        keyof QueryFilters,
+        string
+    >;
+    const { items, loading } = useFilterIngredients();
+
+    const {
+        selectedId,
+        onToggleId,
+        sizes,
+        setSizes,
+        pizzaTypes,
+        setPizzaTypes,
+        price,
+        updatePrice,
+    } = useFiltersParams(
+        searchParams.has('ingredients')
+            ? searchParams.get('ingredients')?.split(',')
+            : []
+    );
+
     const ingredients = items.map((item) => ({
         value: String(item.id),
         text: item.name,
     }));
 
-    const [{ priceFrom, priceTo }, setRangePrice] = useState<PriceProps>({
-        priceFrom: 0,
-        priceTo: 1000,
+    useQueryFilters({
+        sizes,
+        pizzaTypes,
+        selectedId,
+        price,
     });
-
-    const updateRangePrice = ({ priceFrom, priceTo }: PriceProps) => {
-        setRangePrice({ priceFrom, priceTo });
-    };
 
     return (
         <div className={cn('', className)}>
             <Title text="Фильтрация" size="sm" className="mb-5 font-bold" />
-            <div className="flex flex-col gap-4">
-                <FilterCheckbox text="Можно собирать" value="30" />
-                <FilterCheckbox text="Новинки" value="40" />
-            </div>
+
+            <CheckboxFiltersGroup
+                title="Тип теста"
+                className="mb-5"
+                onClickCheckbox={setPizzaTypes}
+                selectedId={pizzaTypes}
+                items={[
+                    { text: 'Тонкое', value: '100' },
+                    { text: 'Традиционное', value: '120' },
+                ]}
+                loading={loading}
+            />
+
+            <CheckboxFiltersGroup
+                title="Размеры"
+                loading={loading}
+                className="mb-5"
+                onClickCheckbox={setSizes}
+                selectedId={sizes}
+                items={[
+                    { text: '20 см', value: '20' },
+                    { text: '30 см', value: '30' },
+                    { text: '40 см', value: '40' },
+                ]}
+            />
+
             <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
                 <p className="font-bold mb-3">Цена от и до:</p>
                 <div className="flex gap-3 mb-5">
@@ -49,11 +99,11 @@ export const Filters: FC<Props> = ({ className }) => {
                         placeholder="0"
                         min={0}
                         max={1000}
-                        value={String(priceFrom)}
+                        value={price.priceFrom}
                         onChange={(e) =>
-                            updateRangePrice({
-                                priceFrom: Number(e.target.value),
-                                priceTo,
+                            updatePrice({
+                                ...price,
+                                priceFrom: +e.target.value,
                             })
                         }
                     />
@@ -62,12 +112,9 @@ export const Filters: FC<Props> = ({ className }) => {
                         min={80}
                         max={1000}
                         placeholder="1000"
-                        value={String(priceTo)}
+                        value={price.priceTo}
                         onChange={(e) =>
-                            updateRangePrice({
-                                priceFrom,
-                                priceTo: Number(e.target.value),
-                            })
+                            updatePrice({ ...price, priceTo: +e.target.value })
                         }
                     />
                 </div>
@@ -75,9 +122,9 @@ export const Filters: FC<Props> = ({ className }) => {
                     min={0}
                     max={1000}
                     step={10}
-                    value={[priceFrom, priceTo]}
-                    onValueChange={([from, to]) =>
-                        setRangePrice({ priceFrom: from, priceTo: to })
+                    value={[price.priceFrom || 0, price.priceTo || 1000]}
+                    onValueChange={([priceFrom, priceTo]) =>
+                        updatePrice({ priceFrom, priceTo })
                     }
                 />
             </div>
