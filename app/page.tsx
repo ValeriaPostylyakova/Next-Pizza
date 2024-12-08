@@ -5,14 +5,30 @@ import {
     Title,
 } from '@/components/shared';
 import { TopBar } from '@/components/shared/';
+import { prisma } from '@/prisma/prisma-client';
 
-export default function Home() {
+export default async function Home() {
+    const categories = await prisma.category.findMany({
+        include: {
+            products: {
+                include: {
+                    ingredients: true,
+                    variations: true,
+                },
+            },
+        },
+    });
+
     return (
         <>
             <Container className="mt-10">
                 <Title text="Все пиццы" size="lg" className="font-extrabold" />
             </Container>
-            <TopBar />
+            <TopBar
+                categories={categories.filter(
+                    (category) => category.products.length > 0
+                )}
+            />
 
             <Container className="mt-10 pb-14">
                 <div className="flex gap-[60px]">
@@ -21,98 +37,17 @@ export default function Home() {
                     </div>
                     <div className="flex-1">
                         <div className="flex flex-col gap-16">
-                            <ProductsGroupList
-                                title="Пиццы"
-                                items={[
-                                    {
-                                        id: 1,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 2,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 3,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 4,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 5,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                ]}
-                                categoryId={1}
-                            />
-                            <ProductsGroupList
-                                title="Завтрак"
-                                items={[
-                                    {
-                                        id: 1,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 2,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 3,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 4,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                    {
-                                        id: 5,
-                                        name: 'Чизбургер пицца',
-                                        imageUrl:
-                                            'https://media.dodostatic.net/image/r:292x292/11EE7D61698827EE9B8DB6D0AEC53410.avif',
-                                        price: 550,
-                                        items: [{ price: 550 }],
-                                    },
-                                ]}
-                                categoryId={2}
-                            />
+                            {categories.map(
+                                (category) =>
+                                    category.products.length > 0 && (
+                                        <ProductsGroupList
+                                            key={category.id}
+                                            title={category.name}
+                                            items={category.products}
+                                            categoryId={category.id}
+                                        />
+                                    )
+                            )}
                         </div>
                     </div>
                 </div>

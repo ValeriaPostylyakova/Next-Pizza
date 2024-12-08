@@ -1,12 +1,12 @@
 'use client';
 
-import { FC, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { FC, useEffect, useRef } from 'react';
 import { useIntersection } from 'react-use';
 
-import { Title } from './title';
-import { ProductCard } from './product-card';
 import { useCategoryStore } from '@/store/category';
+import { ProductCard } from './product-card';
+import { Title } from './title';
 
 interface Props {
     title: string;
@@ -48,8 +48,8 @@ export const ProductsGroupList: FC<Props> = ({
                         key={item.id}
                         id={item.id}
                         name={item.name}
-                        imageUrl="https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp"
-                        price={item.items[0].price}
+                        imageUrl={item.imageUrl}
+                        price={item.variations[0].price}
                     />
                 ))}
             </div>
