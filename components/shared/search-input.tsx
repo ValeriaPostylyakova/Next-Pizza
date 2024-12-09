@@ -1,12 +1,12 @@
 'use client';
 
-import { Search } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { useClickAway, useDebounce } from 'react-use';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { Api } from '@/services/api-client';
 import { Product } from '@prisma/client';
+import { Search } from 'lucide-react';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
+import { useClickAway, useDebounce } from 'react-use';
 
 export const SearchInput = () => {
     const [data, setData] = useState<Product[]>([]);
@@ -42,7 +42,7 @@ export const SearchInput = () => {
             )}
             <div
                 ref={ref}
-                className="flex rounded-2xl flex-1 justify-between relative h-11 z-50"
+                className="flex rounded-2xl flex-1 justify-between relative h-11 z-40"
             >
                 <Search className="absolute top-1/2 translate-y-[-50%] left-3 h-5 text-gray-400" />
                 <input
