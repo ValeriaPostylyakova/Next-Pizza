@@ -1,6 +1,6 @@
-import { prisma } from './prisma-client';
 import { hashSync } from 'bcrypt';
 import { categories, ingredients, products } from './constants';
+import { prisma } from './prisma-client';
 
 const randomNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
@@ -95,7 +95,6 @@ async function up() {
 
     await prisma.productVariation.createMany({
         data: [
-            // Пицца "Пепперони фреш"
             generateProductItem({
                 productId: pizza1.id,
                 pizzaType: 1,
@@ -144,7 +143,6 @@ async function up() {
                 size: 40,
             }),
 
-            // Пицца "Чоризо фреш"
             generateProductItem({
                 productId: pizza3.id,
                 pizzaType: 1,
@@ -161,7 +159,6 @@ async function up() {
                 size: 40,
             }),
 
-            // Остальные продукты
             generateProductItem({ productId: 1 }),
             generateProductItem({ productId: 2 }),
             generateProductItem({ productId: 3 }),

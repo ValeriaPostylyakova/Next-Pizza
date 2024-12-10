@@ -1,10 +1,10 @@
+import { prisma } from '@/prisma/prisma-client';
 import {
     Container,
     GroupVariants,
     ProductImage,
     Title,
-} from '@/components/shared';
-import { prisma } from '@/prisma/prisma-client';
+} from '@/shared/components/shared';
 import { notFound } from 'next/navigation';
 
 const ProductPage = async ({ params: { id } }: { params: { id: string } }) => {
