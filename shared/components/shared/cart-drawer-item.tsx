@@ -12,9 +12,9 @@ export const CartDrawerItem: FC<Props> = ({
     className,
     id,
     imageUrl,
-    details,
     name,
     price,
+    details,
     quantity,
 }) => {
     return (
@@ -27,7 +27,10 @@ export const CartDrawerItem: FC<Props> = ({
                 <hr className="my-3" />
 
                 <div className="flex items-center justify-between">
-                    <CartItem.CountButton value={quantity} />
+                    <CartItem.CountButton
+                        onClick={(type) => console.log(type)}
+                        value={quantity}
+                    />
 
                     <div className="flex items-center gap-3">
                         <CartItem.Price value={price} />
