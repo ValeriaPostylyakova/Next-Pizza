@@ -1,8 +1,6 @@
 import { instance } from './axios';
-import { CartItemDTO } from './dto/cart-dto';
+import { CartDTO } from './dto/cart-dto';
 
-export const fetchCartItems = async (): Promise<CartItemDTO> => {
-    const { data } = await instance.get<CartItemDTO>('/cart');
-
-    return data;
+export const fetchCartItems = async (): Promise<CartDTO> => {
+    return (await instance.get<CartDTO>('/cart')).data;
 };

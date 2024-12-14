@@ -10,6 +10,7 @@ import {
 } from '@/shared/components/ui/sheet';
 import { PizzaSize, PizzaType } from '@/shared/constants/prisma';
 import { getCartItemDetails } from '@/shared/hooks/get-cart-item-details';
+import { useCartItemsText } from '@/shared/hooks/use-cart-items-text';
 import { useCartStore } from '@/shared/store/cart';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -22,9 +23,9 @@ interface Props {
 }
 
 export const CartDrawer: FC<Props> = ({ children }) => {
-    const { fetchCartItems, totalAmount, cartItems } = useCartStore(
-        (state) => state
-    );
+    const fetchCartItems = useCartStore((state) => state.fetchCartItems);
+    const items = useCartStore((state) => state.items);
+    const totalAmount = useCartStore((state) => state.totalAmount);
 
     useEffect(() => {
         fetchCartItems();
@@ -37,13 +38,15 @@ export const CartDrawer: FC<Props> = ({ children }) => {
                 <SheetHeader>
                     <SheetTitle>
                         В корзине
-                        <span className="font-bold">3 товара</span>
+                        <span className="font-bold ml-1">
+                            {useCartItemsText(items)}
+                        </span>
                     </SheetTitle>
                 </SheetHeader>
 
                 <div className="-mx-6 mt-5 overflow-auto flex-1">
                     <div className="mb-2">
-                        {cartItems.map((item) => (
+                        {items.map((item) => (
                             <CartDrawerItem
                                 key={item.id}
                                 id={item.id}
