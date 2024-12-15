@@ -5,6 +5,8 @@ import * as CartItem from './cart-item-details';
 import { CartItemProps } from './cart-item-details/cart-item-details.types';
 
 interface Props extends CartItemProps {
+    onClickCountButton?: (type: 'plus' | 'minus') => void;
+    onClickRemove?: () => void;
     className?: string;
 }
 
@@ -16,6 +18,8 @@ export const CartDrawerItem: FC<Props> = ({
     price,
     details,
     quantity,
+    onClickCountButton,
+    onClickRemove,
 }) => {
     return (
         <div className={cn('flex bg-white p-5 gap-6', className)}>
@@ -28,13 +32,14 @@ export const CartDrawerItem: FC<Props> = ({
 
                 <div className="flex items-center justify-between">
                     <CartItem.CountButton
-                        onClick={(type) => console.log(type)}
+                        onClick={onClickCountButton}
                         value={quantity}
                     />
 
                     <div className="flex items-center gap-3">
                         <CartItem.Price value={price} />
                         <Trash2Icon
+                            onClick={onClickRemove}
                             className="text-gray-400 cursor-pointer hover:text-gray-600"
                             size={16}
                         />
