@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Category {
-  id  Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  name String @unique
+  name     String    @unique
   products Product[]
 
   createAt DateTime @default(now())
@@ -20,13 +20,13 @@ model Category {
 model Product {
   id Int @id @default(autoincrement())
 
-  name String
+  name     String
   imageUrl String
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  category Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
 
   ingredients Ingredient[]
@@ -37,29 +37,29 @@ model Product {
 model ProductVariation {
   id Int @id @default(autoincrement())
 
-  price Int
-  size Int?
+  price     Int
+  size      Int?
   pizzaType Int?
 
-  product Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
   productId Int
 
   cartItem CartItem[]
 }
 
 model User {
-  id  Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   role UserRole @default(USER)
 
-  fullName  String
-  email  String @unique
+  fullName String
+  email    String @unique
   password String
 
-  provider String?
+  provider   String?
   providerId String?
 
-  cart Cart?
+  cart   Cart?
   cardId Int
 
   orders Order[]
@@ -75,11 +75,11 @@ model User {
 model Ingredient {
   id Int @id @default(autoincrement())
 
-  name String
-  price Int
+  name     String
+  price    Int
   imageUrl String
 
-  products Product[]
+  products  Product[]
   cartItems CartItem[]
 
   createAt DateTime @default(now())
@@ -89,7 +89,7 @@ model Ingredient {
 model Cart {
   id Int @id @default(autoincrement())
 
-  userId Int? @unique
+  userId Int?  @unique
   user   User? @relation(fields: [userId], references: [id])
 
   totalAmount Int @default(0)
@@ -105,13 +105,13 @@ model Cart {
 model CartItem {
   id Int @id @default(autoincrement())
 
-  cart Cart @relation(fields: [cartId], references: [id])
+  cart   Cart @relation(fields: [cartId], references: [id])
   cartId Int
 
   productVariation ProductVariation @relation(fields: [productItemId], references: [id])
-  productItemId Int
+  productItemId    Int
 
-  quanty Int
+  quanty Int @default(1)
 
   ingredients Ingredient[]
 
@@ -122,22 +122,22 @@ model CartItem {
 model Order {
   id Int @id @default(autoincrement())
 
-  user User? @relation(fields: [iserId], references: [id])
+  user   User? @relation(fields: [iserId], references: [id])
   iserId Int?
 
   token String
 
   totalAmount Int
-  status OrderStatus
-  paymentId String?
+  status      OrderStatus
+  paymentId   String?
 
   items Json
 
   fullName String
-  email String
-  phone String
-  adress String
-  comment String?
+  email    String
+  phone    String
+  adress   String
+  comment  String?
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -146,8 +146,8 @@ model Order {
 model VerificationCode {
   id Int @id @default(autoincrement())
 
-  user User @relation(fields: [userId], references: [id])
-  userId Int @unique
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
 
   code String
 
@@ -166,4 +166,3 @@ enum UserRole {
   USER
   ADMIN
 }
-
