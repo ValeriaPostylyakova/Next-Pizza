@@ -21,8 +21,6 @@ export async function PATCH(
             },
         });
 
-        console.log(data);
-
         if (!cartItem) {
             return NextResponse.json({ message: 'Товар не найден' });
         }
@@ -37,7 +35,6 @@ export async function PATCH(
         });
 
         const updatedCartUser = await updateCartTotalAmount(token);
-
         return NextResponse.json(updatedCartUser);
     } catch (error) {
         console.error(error);
@@ -52,33 +49,29 @@ export async function DELETE(
     req: NextRequest,
     { params }: { params: { id: string } }
 ) {
-    try {
-        const id = params.id;
-        const token = req.cookies.get('token')?.value;
+    const id = params.id;
+    const token = req.cookies.get('token')?.value;
 
-        if (!token) {
-            return NextResponse.json({ message: 'Токен не найден' });
-        }
-
-        const cartItem = await prisma.cartItem.findFirst({
-            where: {
-                id: Number(id),
-            },
-        });
-
-        if (!cartItem) {
-            return NextResponse.json({ message: 'Товар не найден' });
-        }
-
-        await prisma.cartItem.delete({
-            where: {
-                id: Number(id),
-            },
-        });
-
-        const updatedCartUser = await updateCartTotalAmount(token);
-        return NextResponse.json(updatedCartUser);
-    } catch (err) {
-        console.error(err);
+    if (!token) {
+        return NextResponse.json({ message: 'Токен не найден' });
     }
+
+    const cartItem = await prisma.cartItem.findFirst({
+        where: {
+            id: Number(id),
+        },
+    });
+
+    if (!cartItem) {
+        return NextResponse.json({ message: 'Товар не найден' });
+    }
+
+    await prisma.cartItem.delete({
+        where: {
+            id: Number(id),
+        },
+    });
+
+    const updatedCartUser = await updateCartTotalAmount(token);
+    return NextResponse.json(updatedCartUser);
 }

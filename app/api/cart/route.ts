@@ -1,8 +1,8 @@
 import { prisma } from '@/prisma/prisma-client';
 import { findOrCreateCart } from '@/shared/lib/find-or-create-cart';
-import { updateCartTotalAmount } from '@/shared/lib/update-cart-total-amount';
 import { CreateCartItemValues } from '@/shared/services/dto/cart-dto';
 import { NextRequest, NextResponse } from 'next/server';
+import { updateCartTotalAmount } from './../../../shared/lib/update-cart-total-amount';
 
 export async function GET(req: NextRequest) {
     try {
@@ -102,3 +102,46 @@ export async function POST(req: NextRequest) {
         });
     }
 }
+
+// export async function DELETE(req: NextRequest) {
+//     try {
+//         const token = req.cookies.get('token')?.value;
+
+//         if (!token) {
+//             return NextResponse.json({
+//                 message: 'Токен не найден',
+//                 status: 401,
+//             });
+//         }
+
+//         const data = (await req.json()) as { id: number };
+
+//         const cartItem = await prisma.cartItem.findFirst({
+//             where: {
+//                 id: data.id,
+//             },
+//         });
+
+//         if (!cartItem) {
+//             return NextResponse.json({
+//                 message: 'Товар не найден',
+//                 status: 500,
+//             });
+//         }
+
+//         await prisma.cartItem.delete({
+//             where: {
+//                 id: data.id,
+//             },
+//         });
+
+//         const updatedUserCart = updateCartTotalAmount(token);
+//         return NextResponse.json(updatedUserCart);
+//     } catch (error) {
+//         console.log('CART_DELETE', error);
+//         return NextResponse.json({
+//             message: 'Ошибка при удалении товара',
+//             status: 500,
+//         });
+//     }
+// }

@@ -13,6 +13,7 @@ import { GroupVariants } from '../group-variants';
 import { Ingredients } from '../ingredients';
 import { ProductImage } from '../product-image';
 import { Title } from '../title';
+import { useCartStore } from '@/shared/store/cart';
 
 interface Props {
     className?: string;
@@ -60,7 +61,6 @@ export const ChoosePizzaForm: FC<Props> = ({
     const totalPrice = pizzaIngredientsPrice + pizzaVariationPrice;
 
     const textDetails = `${sizes} см, ${mapPizzaType[types]} тесто`;
-
     return (
         <div className="flex flex-1">
             <div className="flex items-center justify-center flex-1 relative w-full">
