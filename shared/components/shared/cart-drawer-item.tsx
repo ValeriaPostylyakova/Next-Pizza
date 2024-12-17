@@ -22,7 +22,7 @@ export const CartDrawerItem: FC<Props> = ({
     onClickRemove,
 }) => {
     return (
-        <div className={cn('flex bg-white p-5 gap-6', className)}>
+        <div className={cn('flex bg-white p-5 gap-6 mb-2', className)}>
             <CartItem.Image src={imageUrl} />
 
             <div className="flex-1">

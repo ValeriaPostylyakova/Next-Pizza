@@ -1,8 +1,8 @@
 import { prisma } from '@/prisma/prisma-client';
 import { findOrCreateCart } from '@/shared/lib/find-or-create-cart';
+import { updateCartTotalAmount } from '@/shared/lib/update-cart-total-amount';
 import { CreateCartItemValues } from '@/shared/services/dto/cart-dto';
 import { NextRequest, NextResponse } from 'next/server';
-import { updateCartTotalAmount } from './../../../shared/lib/update-cart-total-amount';
 
 export async function GET(req: NextRequest) {
     try {
@@ -54,18 +54,26 @@ export async function POST(req: NextRequest) {
             token = crypto.randomUUID();
         }
 
-        const userCart = findOrCreateCart(token);
+        const userCart = await findOrCreateCart(token);
 
         const data = (await req.json()) as CreateCartItemValues;
 
         const findCartItem = await prisma.cartItem.findFirst({
             where: {
-                cartId: userCart.id,
+                cartId: userCart?.id,
                 productItemId: data.productItemId,
-                ingredients: { every: { id: { in: data.ingredients } } },
+                ingredients: {
+                    every: {
+                        id: { in: data.ingredients },
+                    },
+                },
+            },
+            orderBy: {
+                createAt: 'desc',
             },
         });
 
+        // Если товар был найден, делаем +1
         if (findCartItem) {
             await prisma.cartItem.update({
                 where: {
@@ -75,12 +83,10 @@ export async function POST(req: NextRequest) {
                     quanty: findCartItem.quanty + 1,
                 },
             });
-        }
-
-        if (!findCartItem) {
+        } else {
             await prisma.cartItem.create({
                 data: {
-                    cartId: userCart.id,
+                    cartId: userCart?.id,
                     productItemId: data.productItemId,
                     quanty: 1,
                     ingredients: {
@@ -90,58 +96,16 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        const updatedUserCart = updateCartTotalAmount(token);
-        const response = NextResponse.json(updatedUserCart);
-        response.cookies.set('token', token);
-        return response;
+        const updatedUserCart = await updateCartTotalAmount(token);
+
+        const resp = NextResponse.json(updatedUserCart);
+        resp.cookies.set('token', token);
+        return resp;
     } catch (error) {
-        console.log('CART_POST', error);
-        return NextResponse.json({
-            message: 'Ошибка при создании корзины',
-            status: 500,
-        });
+        console.log('[CART_POST] Server error', error);
+        return NextResponse.json(
+            { message: 'Не удалось создать корзину' },
+            { status: 500 }
+        );
     }
 }
-
-// export async function DELETE(req: NextRequest) {
-//     try {
-//         const token = req.cookies.get('token')?.value;
-
-//         if (!token) {
-//             return NextResponse.json({
-//                 message: 'Токен не найден',
-//                 status: 401,
-//             });
-//         }
-
-//         const data = (await req.json()) as { id: number };
-
-//         const cartItem = await prisma.cartItem.findFirst({
-//             where: {
-//                 id: data.id,
-//             },
-//         });
-
-//         if (!cartItem) {
-//             return NextResponse.json({
-//                 message: 'Товар не найден',
-//                 status: 500,
-//             });
-//         }
-
-//         await prisma.cartItem.delete({
-//             where: {
-//                 id: data.id,
-//             },
-//         });
-
-//         const updatedUserCart = updateCartTotalAmount(token);
-//         return NextResponse.json(updatedUserCart);
-//     } catch (error) {
-//         console.log('CART_DELETE', error);
-//         return NextResponse.json({
-//             message: 'Ошибка при удалении товара',
-//             status: 500,
-//         });
-//     }
-// }

@@ -1,5 +1,6 @@
 import { Nunito } from 'next/font/google';
 import { ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
 const nunito = Nunito({
@@ -18,7 +19,10 @@ export default function RootLayout({
             <head>
                 <link rel="icon" href="/logo.png" />
             </head>
-            <body className={nunito.variable}>{children}</body>
+            <body className={nunito.variable}>
+                <Toaster />
+                {children}
+            </body>
         </html>
     );
 }

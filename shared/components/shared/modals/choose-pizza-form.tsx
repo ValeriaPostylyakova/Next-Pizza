@@ -13,7 +13,6 @@ import { GroupVariants } from '../group-variants';
 import { Ingredients } from '../ingredients';
 import { ProductImage } from '../product-image';
 import { Title } from '../title';
-import { useCartStore } from '@/shared/store/cart';
 
 interface Props {
     className?: string;
@@ -21,14 +20,15 @@ interface Props {
     imageUrl: string;
     variation: IProduct['variations'];
     ingredients: IProduct['ingredients'];
-    onClickAddCart?: VoidFunction;
+    onClickAdd?: (productId: number, ingredient: number[]) => void;
+    loading: boolean;
 }
 
 export const ChoosePizzaForm: FC<Props> = ({
     name,
     imageUrl,
     variation,
-    onClickAddCart,
+    onClickAdd,
 }) => {
     const {
         sizes,
@@ -38,15 +38,11 @@ export const ChoosePizzaForm: FC<Props> = ({
         selectedIngedients,
         toggle,
         availablePizzaSizes,
+        currentItemId,
     } = useEvailablePizzaSize(variation);
 
     const handleClickCart = () => {
-        onClickAddCart?.();
-        console.log({
-            sizes,
-            types,
-            ingredients: selectedIngedients,
-        });
+        onClickAdd?.(currentItemId, Array.from(selectedIngedients));
     };
 
     const pizzaVariationPrice =
