@@ -1,12 +1,12 @@
 'use client';
 
+import { CheckboxFiltersGroup } from '@/shared/components/shared/checkbox-filters-group';
+import { Input } from '@/shared/components/ui';
 import {
     useFilterIngredients,
     useFiltersParams,
     useQueryFilters,
 } from '@/shared/hooks';
-import { CheckboxFiltersGroup } from '@/shared/components/shared/checkbox-filters-group';
-import { Input } from '@/shared/components/ui';
 import { cn } from '@/shared/lib/utils';
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
@@ -72,8 +72,8 @@ export const Filters: FC<Props> = ({ className }) => {
                 onClickCheckbox={setPizzaTypes}
                 selectedId={pizzaTypes}
                 items={[
-                    { text: 'Тонкое', value: '100' },
-                    { text: 'Традиционное', value: '120' },
+                    { text: 'Тонкое', value: '1' },
+                    { text: 'Традиционное', value: '2' },
                 ]}
                 loading={loading}
             />

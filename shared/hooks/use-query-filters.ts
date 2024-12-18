@@ -24,5 +24,5 @@ export const useQueryFilters = (params: QueryFiltersProps) => {
         });
 
         router.push(`?${query}`, { scroll: false });
-    }, [params, router]);
+    }, [params]);
 };

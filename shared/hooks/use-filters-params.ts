@@ -1,6 +1,6 @@
 import { PriceProps, QueryFilters } from '@/shared/components/shared/filters';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSet } from 'react-use';
 
 export const useFiltersParams = (values?: string[]) => {
@@ -37,14 +37,17 @@ export const useFiltersParams = (values?: string[]) => {
         setPrice(value);
     };
 
-    return {
-        selectedId,
-        onToggleId: toggle,
-        sizes,
-        setSizes,
-        pizzaTypes,
-        setPizzaTypes,
-        price,
-        updatePrice,
-    };
+    return useMemo(
+        () => ({
+            selectedId,
+            onToggleId: toggle,
+            sizes,
+            setSizes,
+            pizzaTypes,
+            setPizzaTypes,
+            price,
+            updatePrice,
+        }),
+        [selectedId, sizes, pizzaTypes, price]
+    );
 };
