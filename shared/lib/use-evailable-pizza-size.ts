@@ -3,7 +3,7 @@
 import { ProductVariation } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useSet } from 'react-use';
-import { Variant } from '../components/shared/group-variants';
+import { Variant } from '../../group-variants';
 import { PizzaSize, PizzaType } from '../constants/prisma';
 import { getAvailablePizzaSizes } from './available-pizza-sizes';
 

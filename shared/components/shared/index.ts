@@ -1,10 +1,10 @@
+export { GroupVariants } from '../../../group-variants';
 export { CartButtom } from './cart-button';
 export { CartDrawer } from './cart-drawer';
 export { Categories } from './categories';
 export { Container } from './container';
 export { FilterCheckbox } from './filter-checkbox';
 export { Filters } from './filters';
-export { GroupVariants } from './group-variants';
 export { Header } from './header';
 export { Ingredients } from './ingredients';
 export { ChooseProductForm } from './modals/choose-product-form';

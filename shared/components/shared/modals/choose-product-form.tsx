@@ -15,6 +15,7 @@ export const ChooseProductForm: FC<Props> = ({
     imageUrl,
     onClickAdd,
     price,
+    loading,
 }) => {
     return (
         <div className="flex flex-1">
@@ -28,7 +29,8 @@ export const ChooseProductForm: FC<Props> = ({
             <div className="w-[490px] bg-[#f7f6f5] p-7">
                 <Title text={name} size="md" className="font-extrabold m-1" />
                 <Button
-                    onClick={onClickAdd}
+                    loading={loading}
+                    onClick={() => onClickAdd?.()}
                     className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
                 >
                     Добавить в корзину за {price} ₽

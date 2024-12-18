@@ -9,7 +9,7 @@ import {
 } from '@/shared/constants/prisma';
 import { useEvailablePizzaSize } from '@/shared/lib/use-evailable-pizza-size';
 import { FC } from 'react';
-import { GroupVariants } from '../group-variants';
+import { GroupVariants } from '../../../../group-variants';
 import { Ingredients } from '../ingredients';
 import { ProductImage } from '../product-image';
 import { Title } from '../title';
@@ -29,6 +29,7 @@ export const ChoosePizzaForm: FC<Props> = ({
     imageUrl,
     variation,
     onClickAdd,
+    loading,
 }) => {
     const {
         sizes,
@@ -100,6 +101,7 @@ export const ChoosePizzaForm: FC<Props> = ({
                 </div>
 
                 <Button
+                    loading={loading}
                     onClick={handleClickCart}
                     className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
                 >

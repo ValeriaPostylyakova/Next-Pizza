@@ -17,29 +17,31 @@ interface Props {
 }
 export const ChooseProductModal: FC<Props> = ({ className, product }) => {
     const router = useRouter();
+
     const firstProduct = product.variations[0];
-    const [addCartItem, loading] = useCartStore((state) => [
-        state.addCartItem,
-        state.loading,
-    ]);
+
+    const addCartItem = useCartStore((state) => state.addCartItem);
+    const loading = useCartStore((state) => state.loading);
     const isPizzaForm = Boolean(firstProduct.pizzaType);
 
-    const onAddProduct = () => {
-        addCartItem({
-            productItemId: firstProduct.id,
-        });
-    };
-
-    const onAddPizza = (productItemId: number, ingredients: number[]) => {
+    const onSubmit = async (productItemId?: number, ingredients?: number[]) => {
         try {
-            addCartItem({
-                productItemId: productItemId,
-                ingredients,
-            });
-            toast.success('Пицца добавлена в корзину');
+            if (isPizzaForm) {
+                await addCartItem({
+                    productItemId: productItemId,
+                    ingredients,
+                });
+            } else {
+                await addCartItem({
+                    productItemId: firstProduct.id,
+                });
+            }
+
+            toast.success('Товар добавлен в корзину');
+            router.back();
         } catch (err) {
             console.error(err);
-            toast.error('Не удалось добавить пиццу в корзину');
+            toast.error('Не удалось добавить товар в корзину');
         }
     };
 
@@ -57,14 +59,14 @@ export const ChooseProductModal: FC<Props> = ({ className, product }) => {
                         imageUrl={product.imageUrl}
                         ingredients={[]}
                         variation={product.variations}
-                        onClickAdd={onAddPizza}
+                        onClickAdd={onSubmit}
                         loading={loading}
                     />
                 ) : (
                     <ChooseProductForm
                         name={product.name}
                         imageUrl={product.imageUrl}
-                        onClickAdd={onAddProduct}
+                        onClickAdd={onSubmit}
                         price={firstProduct.price}
                         loading={loading}
                     />
