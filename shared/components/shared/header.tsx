@@ -6,13 +6,19 @@ import { User } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
-import { CartButtom } from './cart-button';
+import { CartButton } from './cart-button';
 
 interface Props {
+    isShowSearch?: boolean;
+    isShowDrawer?: boolean;
     className?: string;
 }
 
-export const Header: FC<Props> = ({ className }) => {
+export const Header: FC<Props> = ({
+    className,
+    isShowSearch,
+    isShowDrawer,
+}) => {
     return (
         <header className={cn('border border-b', className)}>
             <Container className="flex items-center justify-between py-8">
@@ -24,9 +30,11 @@ export const Header: FC<Props> = ({ className }) => {
                         </h1>
                     </div>
                 </Link>
-                <div className="mx-10 flex-1">
-                    <SearchInput />
-                </div>
+                {isShowSearch && (
+                    <div className="mx-10 flex-1">
+                        <SearchInput />
+                    </div>
+                )}
 
                 <div className="flex items-center gap-3">
                     <Button
@@ -37,7 +45,7 @@ export const Header: FC<Props> = ({ className }) => {
                         Войти
                     </Button>
 
-                    <CartButtom />
+                    {isShowDrawer && <CartButton />}
                 </div>
             </Container>
         </header>

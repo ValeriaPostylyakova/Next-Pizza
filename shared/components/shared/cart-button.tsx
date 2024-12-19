@@ -10,7 +10,7 @@ interface Props {
     className?: string;
 }
 
-export const CartButtom: FC<Props> = ({ className }) => {
+export const CartButton: FC<Props> = ({ className }) => {
     const items = useCartStore((state) => state.items);
     const loading = useCartStore((state) => state.loading);
     const totalAmount = useCartStore((state) => state.totalAmount);

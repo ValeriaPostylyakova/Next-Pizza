@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ru">
-            <Header />
+            <Header isShowDrawer isShowSearch />
             <main className="min-h-screen">
                 {children}
                 {modal}
