@@ -26,11 +26,13 @@ interface Props {
 }
 
 export const CartDrawer: FC<Props> = ({ children }) => {
-    const fetchCartItems = useCartStore((state) => state.fetchCartItems);
-    const items = useCartStore((state) => state.items);
-    const totalAmount = useCartStore((state) => state.totalAmount);
-    const updateQuantity = useCartStore((state) => state.updateQuantity);
-    const removeCartItem = useCartStore((state) => state.removeCartItem);
+    const {
+        fetchCartItems,
+        items,
+        totalAmount,
+        updateQuantity,
+        removeCartItem,
+    } = useCartStore((state) => state);
 
     useEffect(() => {
         fetchCartItems();
@@ -147,13 +149,15 @@ export const CartDrawer: FC<Props> = ({ children }) => {
                                     </div>
 
                                     <Link href="/cart">
-                                        <Button
-                                            type="submit"
-                                            className="w-full h-12 text-base"
-                                        >
-                                            Оформить заказ
-                                            <ArrowRight className="w-5 ml-2" />
-                                        </Button>
+                                        <Link href="/checkout">
+                                            <Button
+                                                type="submit"
+                                                className="w-full h-12 text-base"
+                                            >
+                                                Оформить заказ
+                                                <ArrowRight className="w-5 ml-2" />
+                                            </Button>
+                                        </Link>
                                     </Link>
                                 </div>
                             </SheetFooter>

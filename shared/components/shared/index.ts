@@ -1,5 +1,5 @@
 export { GroupVariants } from '../../../group-variants';
-export { CartButtom } from './cart-button';
+export { CartButton } from './cart-button';
 export { CartDrawer } from './cart-drawer';
 export { Categories } from './categories';
 export { Container } from './container';
@@ -16,3 +16,4 @@ export { SearchInput } from './search-input';
 export { SortPopup } from './sort-popup';
 export { Title } from './title';
 export { TopBar } from './top-bar';
+export { WhiteBlock } from './white-block';

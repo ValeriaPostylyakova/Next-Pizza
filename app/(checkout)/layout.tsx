@@ -16,7 +16,7 @@ export default function CheckoutLayout({
             <main className="min-h-screen bg-[#F4F1EE]">
                 <Container>
                     <Suspense>
-                        <Header />
+                        <Header className="border-b-gray-300" />
                     </Suspense>
                     {children}
                 </Container>
