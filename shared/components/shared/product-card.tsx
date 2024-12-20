@@ -1,6 +1,7 @@
 import { Title } from '@/shared/components/shared/title';
 import { Button } from '@/shared/components/ui';
 import { cn } from '@/shared/lib/utils';
+import { Ingredient } from '@prisma/client';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 import { FC } from 'react';
@@ -12,6 +13,7 @@ interface Props {
     name: string;
     price?: number;
     count?: number;
+    ingredients?: Ingredient[];
 }
 
 export const ProductCard: FC<Props> = ({
@@ -20,6 +22,7 @@ export const ProductCard: FC<Props> = ({
     name,
     price,
     className,
+    ingredients,
 }) => {
     return (
         <div className={cn('flex bg-white min-h-36 p-5 gap-6', className)}>
@@ -39,8 +42,7 @@ export const ProductCard: FC<Props> = ({
                         className="mb-1 mt-3 font-bold"
                     />
                     <p className="text-sm text-gray-400">
-                        Цыпленок, моцарелла, сыры чеддер и пармезан, Цыпленок,
-                        моцарелла, сыры чеддер и пармезан
+                        {ingredients?.map((item) => item.name).join(', ')}
                     </p>
                     <hr className="my-3" />
 

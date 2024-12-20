@@ -10,13 +10,13 @@ import {
     SheetTrigger,
 } from '@/shared/components/ui/sheet';
 import { PizzaSize, PizzaType } from '@/shared/constants/prisma';
+import { useCart } from '@/shared/hooks';
 import { getCartItemDetails } from '@/shared/hooks/get-cart-item-details';
 import { useCartItemsText } from '@/shared/hooks/use-cart-items-text';
 import { cn } from '@/shared/lib/utils';
-import { useCartStore } from '@/shared/store/cart';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { FC, ReactNode, useEffect } from 'react';
+import { FC, ReactNode } from 'react';
 import { Button } from '../ui';
 import { CartDrawerItem } from './cart-drawer-item';
 import { Title } from './title';
@@ -26,17 +26,7 @@ interface Props {
 }
 
 export const CartDrawer: FC<Props> = ({ children }) => {
-    const {
-        fetchCartItems,
-        items,
-        totalAmount,
-        updateQuantity,
-        removeCartItem,
-    } = useCartStore((state) => state);
-
-    useEffect(() => {
-        fetchCartItems();
-    }, []);
+    const { updateQuantity, totalAmount, items, removeCartItem } = useCart();
 
     const onClickCountButton = (
         id: number,
@@ -108,15 +98,11 @@ export const CartDrawer: FC<Props> = ({ children }) => {
                                             key={item.id}
                                             id={item.id}
                                             imageUrl={item.imageUrl}
-                                            details={
-                                                item.pizzaType
-                                                    ? getCartItemDetails(
-                                                          item.pizzaType as PizzaType,
-                                                          item.pizzaSize as PizzaSize,
-                                                          item.ingredients
-                                                      )
-                                                    : ''
-                                            }
+                                            details={getCartItemDetails(
+                                                item.pizzaType as PizzaType,
+                                                item.pizzaSize as PizzaSize,
+                                                item.ingredients
+                                            )}
                                             name={item.name}
                                             price={item.price}
                                             quantity={item.quantity}

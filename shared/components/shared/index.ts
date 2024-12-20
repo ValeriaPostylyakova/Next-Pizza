@@ -2,6 +2,7 @@ export { GroupVariants } from '../../../group-variants';
 export { CartButton } from './cart-button';
 export { CartDrawer } from './cart-drawer';
 export { Categories } from './categories';
+export { CheckoutItemSkeleton } from './checkout-item-skeleton';
 export { Container } from './container';
 export { FilterCheckbox } from './filter-checkbox';
 export { Filters } from './filters';

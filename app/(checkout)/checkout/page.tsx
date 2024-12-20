@@ -1,9 +1,32 @@
+'use client';
 import { Container, Title, WhiteBlock } from '@/shared/components/shared';
-import { CheckoutItemDetails } from '@/shared/components/shared/checkout-item-details';
-import { Button, Input, Textarea } from '@/shared/components/ui';
-import { ArrowRight, Package, Truck } from 'lucide-react';
+import { CheckoutCartBlock } from '@/shared/components/shared/checkout-cart-block';
+import { CheckoutRightBlock } from '@/shared/components/shared/checkout-right-block';
+import { Input, Textarea } from '@/shared/components/ui';
+import { useCart } from '@/shared/hooks';
 
 const CheckoutPage = () => {
+    const {
+        items,
+        totalAmount,
+        addCartItem,
+        removeCartItem,
+        updateQuantity,
+        loading,
+    } = useCart();
+
+    const onClickCountButton = (
+        id: number,
+        quanty: number,
+        type: 'plus' | 'minus'
+    ) => {
+        const newQuanty = type === 'plus' ? quanty + 1 : quanty - 1;
+        updateQuantity(id, newQuanty);
+    };
+
+    const DELIVERY_PRICE = 250;
+    const totalPrice = DELIVERY_PRICE + totalAmount;
+
     return (
         <Container className="mt-10">
             <Title
@@ -12,7 +35,12 @@ const CheckoutPage = () => {
             />
             <div className="flex gap-10">
                 <div className="flex flex-col gap-10 flex-1 mb-20">
-                    <WhiteBlock title="1. Корзина">Корзина</WhiteBlock>
+                    <CheckoutCartBlock
+                        loading={loading}
+                        items={items}
+                        onClickCountButton={onClickCountButton}
+                        removeCartItem={removeCartItem}
+                    />
                     <WhiteBlock title="2. Персональные данные">
                         <div className="grid grid-cols-2 gap-5">
                             <Input
@@ -53,47 +81,11 @@ const CheckoutPage = () => {
                     </WhiteBlock>
                 </div>
                 <div className="w-[450px]">
-                    <WhiteBlock className="p-6 sticky top-4">
-                        <div className="flex flex-col gap-1">
-                            <span className="text-xl">Итого:</span>
-                            <span className="h-11 text-[34px] font-extrabold mb-10">
-                                1300 ₽
-                            </span>
-                        </div>
-                        <CheckoutItemDetails
-                            title={
-                                <div className="flex items-center gap-1">
-                                    <Package
-                                        size={18}
-                                        className="mr-2 text-gray-400"
-                                    />
-                                    Стоиомость корзины:
-                                </div>
-                            }
-                            value={1000}
-                        />
-
-                        <CheckoutItemDetails
-                            title={
-                                <div className="flex items-center gap-1">
-                                    <Truck
-                                        size={18}
-                                        className="mr-2 text-gray-400"
-                                    />
-                                    Стоимость доставки:
-                                </div>
-                            }
-                            value={300}
-                        />
-
-                        <Button
-                            type="submit"
-                            className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
-                        >
-                            Перейти к оплате
-                            <ArrowRight className="w-5 ml-2" />
-                        </Button>
-                    </WhiteBlock>
+                    <CheckoutRightBlock
+                        totalPrice={totalPrice}
+                        totalAmount={totalAmount}
+                        DELIVERY_PRICE={DELIVERY_PRICE}
+                    />
                 </div>
             </div>
         </Container>
