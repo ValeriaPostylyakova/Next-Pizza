@@ -5,10 +5,14 @@ import { ErrorText } from '../error-text';
 import { FormTextarea } from '../form/form-textarea';
 import { WhiteBlock } from '../white-block';
 
-export const CheckoutAddress: FC = () => {
+export interface Props {
+    className?: string;
+}
+
+export const CheckoutAddress: FC<Props> = ({ className }) => {
     const { control } = useFormContext();
     return (
-        <WhiteBlock title="3. Адрес доставки">
+        <WhiteBlock className={className} title="3. Адрес доставки">
             <div className="flex flex-col gap-5">
                 <Controller
                     control={control}

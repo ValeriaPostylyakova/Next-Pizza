@@ -33,7 +33,7 @@ export const CheckoutCartItem: FC<Props> = ({
     return (
         <div
             className={cn(
-                'mb-4 flex items-center justify-between',
+                'flex items-center justify-between',
                 {
                     'opacity-50 pointer-events-none': disabled,
                 },

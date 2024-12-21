@@ -1,10 +1,11 @@
 import { ArrowRight, Package, Truck } from 'lucide-react';
 import { FC } from 'react';
-import { Button } from '../ui';
+import { Button, Skeleton } from '../ui';
 import { CheckoutItemDetails } from './checkout-item-details';
 import { WhiteBlock } from './white-block';
 
 export interface Props {
+    loading?: boolean;
     totalPrice: number;
     totalAmount: number;
     DELIVERY_PRICE: number;
@@ -14,14 +15,19 @@ export const CheckoutRightBlock: FC<Props> = ({
     totalAmount,
     totalPrice,
     DELIVERY_PRICE,
+    loading,
 }) => {
     return (
         <WhiteBlock className="p-6 sticky top-4">
             <div className="flex flex-col gap-1">
                 <span className="text-xl">Итого:</span>
-                <span className="h-11 text-[34px] font-extrabold mb-10">
-                    {totalPrice} ₽
-                </span>
+                {loading ? (
+                    <Skeleton className="h-11 w-" />
+                ) : (
+                    <span className="h-11 text-[34px] font-extrabold mb-10">
+                        {totalPrice} ₽
+                    </span>
+                )}
             </div>
             <CheckoutItemDetails
                 title={
@@ -31,6 +37,7 @@ export const CheckoutRightBlock: FC<Props> = ({
                     </div>
                 }
                 value={totalAmount}
+                loading={loading}
             />
 
             <CheckoutItemDetails
@@ -41,6 +48,7 @@ export const CheckoutRightBlock: FC<Props> = ({
                     </div>
                 }
                 value={DELIVERY_PRICE}
+                loading={loading}
             />
 
             <Button

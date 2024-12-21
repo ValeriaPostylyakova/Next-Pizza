@@ -61,14 +61,27 @@ const CheckoutPage = () => {
                                 removeCartItem={removeCartItem}
                                 loading={loading}
                             />
-                            <CheckoutForm />
-                            <CheckoutAddress />
+                            <CheckoutForm
+                                className={
+                                    loading
+                                        ? 'opacity-40 pointer-events-none'
+                                        : ''
+                                }
+                            />
+                            <CheckoutAddress
+                                className={
+                                    loading
+                                        ? 'opacity-40 pointer-events-none'
+                                        : ''
+                                }
+                            />
                         </div>
                         <div className="w-[450px]">
                             <CheckoutRightBlock
                                 totalPrice={totalPrice}
                                 totalAmount={totalAmount}
                                 DELIVERY_PRICE={DELIVERY_PRICE}
+                                loading={loading}
                             />
                         </div>
                     </div>
