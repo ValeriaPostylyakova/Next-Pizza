@@ -1,19 +1,20 @@
 'use client';
-import { Container, Title, WhiteBlock } from '@/shared/components/shared';
-import { CheckoutCartBlock } from '@/shared/components/shared/checkout-cart-block';
+import { Container, Title } from '@/shared/components/shared';
 import { CheckoutRightBlock } from '@/shared/components/shared/checkout-right-block';
-import { Input, Textarea } from '@/shared/components/ui';
+import { CheckoutAddress } from '@/shared/components/shared/checkout/checkout-address';
+import { CheckoutCart } from '@/shared/components/shared/checkout/checkout-cart';
+import { CheckoutForm } from '@/shared/components/shared/checkout/checkout-form';
+import {
+    checkoutFormSchema,
+    TCheckoutFormSchema,
+} from '@/shared/components/shared/checkout/checkout-form-schema';
 import { useCart } from '@/shared/hooks';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, useForm } from 'react-hook-form';
 
 const CheckoutPage = () => {
-    const {
-        items,
-        totalAmount,
-        addCartItem,
-        removeCartItem,
-        updateQuantity,
-        loading,
-    } = useCart();
+    const { items, totalAmount, removeCartItem, updateQuantity, loading } =
+        useCart();
 
     const onClickCountButton = (
         id: number,
@@ -27,67 +28,52 @@ const CheckoutPage = () => {
     const DELIVERY_PRICE = 250;
     const totalPrice = DELIVERY_PRICE + totalAmount;
 
+    const form = useForm<TCheckoutFormSchema>({
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            address: '',
+            comment: '',
+        },
+        resolver: zodResolver(checkoutFormSchema),
+        mode: 'onChange',
+    });
+
+    const onSubmit = (data: TCheckoutFormSchema) => {
+        console.log(data);
+    };
+
     return (
         <Container className="mt-10">
             <Title
                 text="Оформление заказа"
                 className="font-extrabold mb-8 text-[34px]"
             />
-            <div className="flex gap-10">
-                <div className="flex flex-col gap-10 flex-1 mb-20">
-                    <CheckoutCartBlock
-                        loading={loading}
-                        items={items}
-                        onClickCountButton={onClickCountButton}
-                        removeCartItem={removeCartItem}
-                    />
-                    <WhiteBlock title="2. Персональные данные">
-                        <div className="grid grid-cols-2 gap-5">
-                            <Input
-                                name="firstName"
-                                className="text-base"
-                                placeholder="Имя"
+            <FormProvider {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="flex gap-10">
+                        <div className="flex flex-col gap-10 flex-1 mb-20">
+                            <CheckoutCart
+                                items={items}
+                                onClickCountButton={onClickCountButton}
+                                removeCartItem={removeCartItem}
+                                loading={loading}
                             />
-                            <Input
-                                name="lastName"
-                                className="text-base"
-                                placeholder="Фамилия"
-                            />
-                            <Input
-                                name="email"
-                                className="text-base"
-                                placeholder="E-Mail"
-                            />
-                            <Input
-                                name="phone"
-                                className="text-base"
-                                placeholder="Телефон"
+                            <CheckoutForm />
+                            <CheckoutAddress />
+                        </div>
+                        <div className="w-[450px]">
+                            <CheckoutRightBlock
+                                totalPrice={totalPrice}
+                                totalAmount={totalAmount}
+                                DELIVERY_PRICE={DELIVERY_PRICE}
                             />
                         </div>
-                    </WhiteBlock>
-                    <WhiteBlock title="3. Адрес доставки">
-                        <div className="flex flex-col gap-5">
-                            <Input
-                                name="lastName"
-                                className="text-base"
-                                placeholder="Адрес"
-                            />
-                            <Textarea
-                                rows={5}
-                                className="text-base"
-                                placeholder="Комментарий к заказу"
-                            />
-                        </div>
-                    </WhiteBlock>
-                </div>
-                <div className="w-[450px]">
-                    <CheckoutRightBlock
-                        totalPrice={totalPrice}
-                        totalAmount={totalAmount}
-                        DELIVERY_PRICE={DELIVERY_PRICE}
-                    />
-                </div>
-            </div>
+                    </div>
+                </form>
+            </FormProvider>
         </Container>
     );
 };
