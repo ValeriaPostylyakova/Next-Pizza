@@ -1,4 +1,5 @@
 'use client';
+import { createOrder } from '@/app/actions';
 import { Container, Title } from '@/shared/components/shared';
 import { CheckoutRightBlock } from '@/shared/components/shared/checkout-right-block';
 import { CheckoutAddress } from '@/shared/components/shared/checkout/checkout-address';
@@ -10,11 +11,15 @@ import {
 } from '@/shared/components/shared/checkout/checkout-form-schema';
 import { useCart } from '@/shared/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 const CheckoutPage = () => {
     const { items, totalAmount, removeCartItem, updateQuantity, loading } =
         useCart();
+
+    const [submitting, setSubmitting] = useState(false);
 
     const onClickCountButton = (
         id: number,
@@ -41,8 +46,20 @@ const CheckoutPage = () => {
         mode: 'onChange',
     });
 
-    const onSubmit = (data: TCheckoutFormSchema) => {
-        console.log(data);
+    const onSubmit = async (data: TCheckoutFormSchema) => {
+        setSubmitting(true);
+        try {
+            const url = await createOrder(data);
+            toast.success('Заказ успешно оформлен! Переход на оплату...');
+
+            if (url) {
+                location.href = url;
+            }
+        } catch (error) {
+            toast.error('Не удалось создать заказ');
+            console.error(error);
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -82,6 +99,7 @@ const CheckoutPage = () => {
                                 totalAmount={totalAmount}
                                 DELIVERY_PRICE={DELIVERY_PRICE}
                                 loading={loading}
+                                submit={submitting}
                             />
                         </div>
                     </div>

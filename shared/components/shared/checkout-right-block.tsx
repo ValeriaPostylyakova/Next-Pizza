@@ -9,6 +9,7 @@ export interface Props {
     totalPrice: number;
     totalAmount: number;
     DELIVERY_PRICE: number;
+    submit?: boolean;
 }
 
 export const CheckoutRightBlock: FC<Props> = ({
@@ -16,6 +17,7 @@ export const CheckoutRightBlock: FC<Props> = ({
     totalPrice,
     DELIVERY_PRICE,
     loading,
+    submit,
 }) => {
     return (
         <WhiteBlock className="p-6 sticky top-4">
@@ -52,6 +54,7 @@ export const CheckoutRightBlock: FC<Props> = ({
             />
 
             <Button
+                loading={submit}
                 type="submit"
                 className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
             >
