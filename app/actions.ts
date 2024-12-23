@@ -3,6 +3,7 @@
 import { prisma } from '@/prisma/prisma-client';
 import { TCheckoutFormSchema } from '@/shared/components/shared/checkout/checkout-form-schema';
 import { EmailTemplate } from '@/shared/components/shared/email-temaples/prepare-order';
+import { createPayment } from '@/shared/lib/create-payment';
 import { sendEmail } from '@/shared/lib/send-email';
 import { OrderStatus } from '@prisma/client';
 import { cookies } from 'next/headers';
@@ -72,15 +73,38 @@ export async function createOrder(data: TCheckoutFormSchema) {
             },
         });
 
+        const paymentData = await createPayment({
+            amount: Number(order.totalAmount + 250),
+            orderId: order.id,
+            description: 'Оплата заказа #' + order.id,
+        });
+
+        if (!paymentData) {
+            throw new Error('Payment error');
+        }
+
+        await prisma.order.update({
+            where: {
+                id: order.id,
+            },
+            data: {
+                paymentId: paymentData.id,
+            },
+        });
+
         await sendEmail(
             data.email,
             'Next Pizza | Оплата заказа',
             EmailTemplate({
                 orderId: order.id,
-                totalAmount: order.totalAmount,
-                payUrl: 'https://resend.com/docs/send-with-nextjs',
+                totalAmount: Number(order.totalAmount + 250),
+                payUrl: '',
             })
         );
+
+        const paymentUrl = paymentData.confirmation.confirmation_url;
+
+        return paymentUrl;
     } catch (err) {
         console.error(err);
     }
