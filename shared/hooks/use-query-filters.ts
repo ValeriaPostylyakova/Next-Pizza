@@ -1,7 +1,7 @@
 import { PriceProps } from '@/shared/components/shared/filters';
 import { useRouter } from 'next/navigation';
 import QueryString from 'qs';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface QueryFiltersProps {
     sizes: Set<string>;
@@ -12,17 +12,23 @@ interface QueryFiltersProps {
 
 export const useQueryFilters = (params: QueryFiltersProps) => {
     const router = useRouter();
-    useEffect(() => {
-        const filters = {
-            ...params.price,
-            sizes: Array.from(params.sizes),
-            pizzaTypes: Array.from(params.pizzaTypes),
-            ingredients: Array.from(params.selectedId),
-        };
-        const query = QueryString.stringify(filters, {
-            arrayFormat: 'comma',
-        });
+    const isMounted = useRef(false);
 
-        router.push(`?${query}`, { scroll: false });
+    useEffect(() => {
+        if (isMounted.current) {
+            const filters = {
+                ...params.price,
+                sizes: Array.from(params.sizes),
+                pizzaTypes: Array.from(params.pizzaTypes),
+                ingredients: Array.from(params.selectedId),
+            };
+            const query = QueryString.stringify(filters, {
+                arrayFormat: 'comma',
+            });
+
+            router.push(`?${query}`, { scroll: false });
+        }
+
+        isMounted.current = true;
     }, [params]);
 };

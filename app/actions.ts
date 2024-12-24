@@ -92,17 +92,17 @@ export async function createOrder(data: TCheckoutFormSchema) {
             },
         });
 
+        const paymentUrl = paymentData.confirmation.confirmation_url;
+
         await sendEmail(
             data.email,
             'Next Pizza | Оплата заказа',
             EmailTemplate({
                 orderId: order.id,
                 totalAmount: Number(order.totalAmount + 250),
-                payUrl: '',
+                payUrl: paymentUrl,
             })
         );
-
-        const paymentUrl = paymentData.confirmation.confirmation_url;
 
         return paymentUrl;
     } catch (err) {

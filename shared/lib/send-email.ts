@@ -10,7 +10,7 @@ export const sendEmail = async (
     const { data, error } = await resend.emails.send({
         from: 'onboarding@resend.dev',
         to,
-        subject: 'Next-Pizza | Оплата заказа',
+        subject: subject,
         react: template,
     });
 
