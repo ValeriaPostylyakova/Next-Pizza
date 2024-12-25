@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { FormInput } from '../form/form-input';
+import { ImaskComponent } from '../imask-component';
 import { WhiteBlock } from '../white-block';
 
 export interface Props {
@@ -25,10 +26,9 @@ export const CheckoutForm: FC<Props> = ({ className }) => {
                     className="text-base"
                     placeholder="E-Mail"
                 />
-                <FormInput
-                    name="phone"
-                    className="text-base"
+                <ImaskComponent
                     placeholder="Телефон"
+                    mask="+{7}(000)000-00-00"
                 />
             </div>
         </WhiteBlock>
