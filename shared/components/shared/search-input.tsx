@@ -68,7 +68,7 @@ export const SearchInput = () => {
                             <Link
                                 onClick={onClickItem}
                                 key={product.id}
-                                href="/"
+                                href={`/product/${product.id}`}
                                 className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/10 rounded-sm"
                             >
                                 <img

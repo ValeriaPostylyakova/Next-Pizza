@@ -59,14 +59,13 @@ model User {
   provider   String?
   providerId String?
 
-  cart   Cart?
-  cardId Int
+  cart Cart?
 
   orders Order[]
 
   verificationCode VerificationCode?
 
-  verify DateTime
+  verify DateTime?
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt

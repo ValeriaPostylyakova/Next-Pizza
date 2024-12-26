@@ -29,9 +29,8 @@ async function up() {
             {
                 fullName: 'USER TEST',
                 email: 'user@mail.ru',
-                password: hashSync('1g4g7gs5l5vc', 10),
+                password: hashSync('11111', 10),
                 role: 'USER',
-                cardId: 0,
                 verify: new Date(),
             },
             {
@@ -39,7 +38,6 @@ async function up() {
                 email: 'admin@mail.ru',
                 password: hashSync('22222', 10),
                 role: 'ADMIN',
-                cardId: 1,
                 verify: new Date(),
             },
         ],

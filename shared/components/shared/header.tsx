@@ -30,6 +30,10 @@ export const Header: FC<Props> = ({
         if (searchParams.has('paid')) {
             toast.success('Заказ оплачен. Спасибо за покупку!');
         }
+
+        if (searchParams.has('verified')) {
+            toast.success('Почта успешно подтверждена!');
+        }
     }, []);
 
     return (
