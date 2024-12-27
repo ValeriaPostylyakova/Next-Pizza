@@ -4,6 +4,7 @@ import {
     ProductsGroupList,
     TopBar,
 } from '@/shared/components/shared';
+import { Stories } from '@/shared/components/shared/stories';
 import { findPizzas, GetSearchParams } from '@/shared/lib/find-pizzas';
 import { Suspense } from 'react';
 
@@ -16,6 +17,7 @@ export default async function Home({
 
     return (
         <>
+            <Stories />
             <TopBar
                 categories={categories.filter(
                     (category) => category.products.length > 0

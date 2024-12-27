@@ -142,6 +142,27 @@ model Order {
   updateAt DateTime @updatedAt
 }
 
+model Story {
+  id Int @id @default(autoincrement())
+
+  imageUrl String
+
+  items StoryItem[]
+
+  createAt DateTime @default(now())
+}
+
+model StoryItem {
+  id Int @id @default(autoincrement())
+
+  sourceUrl String
+
+  story   Story @relation(fields: [storyId], references: [id])
+  storyId Int
+
+  createAt DateTime @default(now())
+}
+
 model VerificationCode {
   id Int @id @default(autoincrement())
 
