@@ -58,6 +58,8 @@ export const ChooseForm: FC<Props> = ({ product, onSubmitSuccess }) => {
                     imageUrl={product.imageUrl}
                     onClickAdd={onSubmit}
                     price={firstProduct.price}
+                    title={product.title}
+                    description={product.description}
                     loading={loading}
                 />
             )}

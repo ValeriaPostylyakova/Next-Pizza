@@ -31,6 +31,9 @@ model Product {
 
   ingredients Ingredient[]
 
+  description String?
+  title       String?
+
   variations ProductVariation[]
 }
 

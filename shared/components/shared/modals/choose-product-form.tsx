@@ -8,6 +8,8 @@ interface Props {
     onClickAdd?: () => void;
     price: number;
     loading: boolean;
+    title: string | null;
+    description: string | null;
 }
 
 export const ChooseProductForm: FC<Props> = ({
@@ -16,6 +18,8 @@ export const ChooseProductForm: FC<Props> = ({
     onClickAdd,
     price,
     loading,
+    title,
+    description,
 }) => {
     return (
         <div className="flex flex-1">
@@ -27,7 +31,15 @@ export const ChooseProductForm: FC<Props> = ({
                 />
             </div>
             <div className="w-[490px] bg-[#f7f6f5] p-7">
-                <Title text={name} size="md" className="font-extrabold m-1" />
+                <div className="flex flex-col items-start">
+                    <Title
+                        text={name}
+                        size="md"
+                        className="font-extrabold my-1"
+                    />
+                    <p className="mb-5 text-gray-500 text-base">{title}</p>
+                    <p className="text-lg">{description}</p>
+                </div>
                 <Button
                     loading={loading}
                     onClick={() => onClickAdd?.()}

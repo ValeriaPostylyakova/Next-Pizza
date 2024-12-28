@@ -14,7 +14,7 @@ export default async function Home({
     searchParams: GetSearchParams;
 }) {
     const categories = await findPizzas(searchParams);
-
+    console.log(searchParams);
     return (
         <>
             <Stories />

@@ -14,7 +14,6 @@ export { ProductCard } from './product-card';
 export { ProductImage } from './product-image';
 export { ProductsGroupList } from './products-group-list';
 export { SearchInput } from './search-input';
-export { SortPopup } from './sort-popup';
 export { Title } from './title';
 export { TopBar } from './top-bar';
 export { WhiteBlock } from './white-block';

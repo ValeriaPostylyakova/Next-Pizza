@@ -56,7 +56,7 @@ export const findPizzas = async (params: GetSearchParams) => {
                     ingredients: true,
                     variations: {
                         orderBy: {
-                            price: 'asc',
+                            price: 'desc',
                         },
                         where: {
                             price: {
