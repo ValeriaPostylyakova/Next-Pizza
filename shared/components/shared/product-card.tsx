@@ -14,7 +14,7 @@ interface Props {
     price?: number;
     count?: number;
     ingredients?: Ingredient[];
-    description?: string;
+    description: string | null;
 }
 
 export const ProductCard: FC<Props> = ({

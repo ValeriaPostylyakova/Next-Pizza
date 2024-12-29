@@ -144,7 +144,7 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
     }
 }
 
-export async function registerUser(body: any) {
+export async function registerUser(body: Prisma.UserCreateInput) {
     try {
         const findUser = await prisma.user.findFirst({
             where: {

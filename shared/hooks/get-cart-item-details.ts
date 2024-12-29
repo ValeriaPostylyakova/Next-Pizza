@@ -1,8 +1,9 @@
+import { CartStateItem } from '../lib/get-cart-details';
 import { mapPizzaType, PizzaSize, PizzaType } from './../constants/prisma';
 export const getCartItemDetails = (
     pizzaType: PizzaType,
     pizzaSize?: PizzaSize,
-    ingredients?: Array<{ name: string }>
+    ingredients?: CartStateItem['ingredients']
 ): string => {
     const details = [];
 
