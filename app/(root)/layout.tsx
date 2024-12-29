@@ -1,6 +1,6 @@
 import { Header } from '@/shared/components/shared/header';
 import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 
 export const metadata: Metadata = {
     title: 'Next Pizza',
@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ru">
-            <Header isShowDrawer isShowSearch />
+            <Suspense>
+                <Header isShowDrawer isShowSearch />
+            </Suspense>
             <main className="min-h-screen">
                 {children}
                 {modal}

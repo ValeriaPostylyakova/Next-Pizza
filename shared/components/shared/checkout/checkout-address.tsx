@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { AddressInput } from '../address-input';
