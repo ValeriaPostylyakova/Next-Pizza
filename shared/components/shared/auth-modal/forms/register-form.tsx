@@ -37,6 +37,7 @@ export const RegisterForm: FC<Props> = ({ onClose }) => {
 
             onClose?.();
         } catch (error) {
+            console.error(error);
             return toast.error('Неверный E-Mail или пароль');
         }
     };
