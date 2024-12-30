@@ -1,3 +1,4 @@
+import { IProduct } from '@/@types/product';
 import { Title } from '@/shared/components/shared/title';
 import { Button } from '@/shared/components/ui';
 import { cn } from '@/shared/lib/utils';
@@ -13,6 +14,7 @@ interface Props {
     name: string;
     price?: number;
     count?: number;
+    product: IProduct;
     ingredients?: Ingredient[];
     description: string | null;
 }
@@ -25,6 +27,7 @@ export const ProductCard: FC<Props> = ({
     className,
     ingredients,
     description,
+    product,
 }) => {
     return (
         <div
@@ -54,9 +57,15 @@ export const ProductCard: FC<Props> = ({
                     </p>
                     <div className="absolute z-10 bottom-0">
                         <div className="flex items-center justify-between">
-                            <span className="text=[30px]">
-                                от <b>{price} ₽</b>
-                            </span>
+                            {product.description !== null ? (
+                                <span className="text=[30px] mr-14">
+                                    <b>{price} ₽</b>
+                                </span>
+                            ) : (
+                                <span className="text=[30px] mr-14">
+                                    от <b>{price} ₽</b>
+                                </span>
+                            )}
                             <Button
                                 variant="secondary"
                                 className="text-base font-bold"

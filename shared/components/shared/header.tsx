@@ -28,7 +28,9 @@ export const Header: FC<Props> = ({
 
     useEffect(() => {
         if (searchParams.has('paid')) {
-            toast.success('Заказ оплачен. Спасибо за покупку!');
+            setTimeout(() => {
+                toast.success('Заказ оплачен. Спасибо за покупку!');
+            }, 50);
         }
 
         if (searchParams.has('verified')) {
