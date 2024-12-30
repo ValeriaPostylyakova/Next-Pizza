@@ -48,10 +48,6 @@ export const authOptions: AuthOptions = {
                     return null;
                 }
 
-                if (!findUser.verify) {
-                    return null;
-                }
-
                 return {
                     id: findUser.id,
                     email: findUser.email,
